@@ -1,0 +1,42 @@
+version: '3.9'
+services:
+  django-animes-to-watch:
+    container_name: django-animes-to-watch
+    build: 
+      context: .
+      dockerfile: django/Dockerfile
+    volumes:
+      - ./app:/app
+      - ./data/static:/data/static
+      - ./data/media:/data/media
+    env_file:
+      - django/.env
+    restart: always
+    depends_on:
+      - mysql-animes-to-watch
+  
+  
+  mysql-animes-to-watch:
+    container_name: mysql-animes-to-watch
+    image: mysql:8.0.35-debian
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./data/db/:/var/lib/mysql/
+    env_file:
+      - mysql/.env
+    restart: always
+
+
+  nginx-animes-to-watch:
+    container_name: nginx-animes-to-watch
+    build:
+      ./nginx
+    image: nginx
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/static:/data/static
+      - ./data/media:/data/media
+    depends_on:
+      - django-animes-to-watch
+    restart: always
