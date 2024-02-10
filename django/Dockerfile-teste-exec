@@ -1,0 +1,21 @@
+FROM python:3.10-bookworm
+LABEL authors="helder"
+
+# Instalando o python3 e o pip
+RUN apt-get update && apt-get install -y  \
+    wget \
+    netcat-openbsd \
+    xvfb \
+    mariadb-client \
+    mlocate \
+    python3-dev  \
+    build-essential  \
+    pkg-config
+
+WORKDIR /root/
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt install -y ./google-chrome-stable_current_amd64.deb
+RUN ls -la
+
+
+CMD ["top", "-b"]

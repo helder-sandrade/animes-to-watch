@@ -1,4 +1,4 @@
-FROM python:3.10-alpine3.13
+FROM python:3.10-bookworm
 LABEL authors="helder"
 
 # set environment variables
@@ -9,25 +9,30 @@ ENV PYTHONUNBUFFERED 1
 COPY ./app/ /app/
 COPY requerimentos.txt /app/
 
-
 WORKDIR /app/
 
-# port container
-#EXPOSE 8000
+# Instalando o python3 e o pip
+RUN apt-get update && apt-get install -y  \
+    wget \
+    netcat-openbsd \
+    xvfb \
+    mariadb-client \
+    mlocate \
+    python3-dev  \
+    build-essential  \
+    pkg-config
 
-#config
-RUN ls -la
-RUN apk update
-RUN apk upgrade
-RUN apk add pkgconfig
-RUN apk add --no-cache gcc musl-dev mariadb-dev mariadb-connector-c-dev
+
+# configurando o python
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt install -y ./google-chrome-stable_current_amd64.deb
+RUN rm -rf google-chrome-stable_current_amd64.deb
 RUN python -m venv /venv
 RUN /venv/bin/pip install --upgrade pip
 RUN /venv/bin/pip install --no-cache-dir -r /app/requerimentos.txt
 RUN chmod -R +x /app/docker_scripts
 RUN mkdir -p /data/static
 RUN mkdir -p /data/media
-
 
 # add path
 ENV PATH="/app/docker_scripts:/venv/bin:$PATH"

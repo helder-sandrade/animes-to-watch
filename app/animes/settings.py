@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv('SECRET_KEY','django-insecure-ii=0o2$g82tims85etzk18b99q#
 DEBUG = bool(int(os.getenv('DEBUG', '1')))
 DJANGO_ALLOW_ASYNC_UNSAFE = os.getenv('DJANGO_ALLOW_ASYNC_UNSAFE', 'True')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [i.strip() for i in os.getenv('ALLOWED_HOSTS', '*').split(',')]
 
 
 # Application definition

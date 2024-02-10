@@ -30,7 +30,8 @@ services:
   nginx-animes-to-watch:
     container_name: nginx-animes-to-watch
     build:
-      ./nginx
+      context: .
+      dockerfile: nginx/Dockerfile
     image: nginx
     ports:
       - "8000:8000"
