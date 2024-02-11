@@ -4,7 +4,6 @@ import platform
 import logging
 import traceback
 from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.core.os_manager import ChromeType
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logging.info(f':::Iniciando o script de download do chromedriver:::"')

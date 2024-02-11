@@ -11,7 +11,7 @@ COPY requerimentos.txt /app/
 
 WORKDIR /app/
 
-# Instalando o python3 e o pip
+# Default packege
 RUN apt-get update && apt-get install -y  \
     wget \
     netcat-openbsd \
@@ -22,11 +22,12 @@ RUN apt-get update && apt-get install -y  \
     build-essential  \
     pkg-config
 
-
-# configurando o python
+# Install google chrome
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN apt install -y ./google-chrome-stable_current_amd64.deb
 RUN rm -rf google-chrome-stable_current_amd64.deb
+
+# configurando o python
 RUN python -m venv /venv
 RUN /venv/bin/pip install --upgrade pip
 RUN /venv/bin/pip install --no-cache-dir -r /app/requerimentos.txt
