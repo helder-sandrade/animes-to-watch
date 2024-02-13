@@ -4,6 +4,7 @@ LABEL authors="helder"
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV TZ=America/Sao_Paulo
 
 # copy files
 COPY ./app/ /app/
