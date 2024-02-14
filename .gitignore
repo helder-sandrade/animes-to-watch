@@ -2,8 +2,8 @@ env
 .vscode
 data
 .idea
-app/selenium/driver/chromedriver.exe
-app/selenium/driver/chromedriver
+app/rpa/driver/chromedriver.exe
+app/rpa/driver/chromedriver
 
 
 # Byte-compiled / optimized / DLL files

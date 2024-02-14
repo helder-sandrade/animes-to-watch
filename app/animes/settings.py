@@ -156,3 +156,7 @@ LOGGING = {
         },
     },
 }
+
+LOCAL_DRIVER = False
+if os.getenv('DBNAME') is None:
+    LOCAL_DRIVER = True

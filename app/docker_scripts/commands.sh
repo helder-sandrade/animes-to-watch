@@ -10,9 +10,6 @@ done
 
 echo "MySQL OK"
 
-# Efetuando download do chromedriver
-python /app/selenium/download_driver.py
-#python /app/selenium/rpa/teste_driver.py
 python manage.py collectstatic --noinput
 python manage.py makemigrations --noinput
 python manage.py migrate --noinput

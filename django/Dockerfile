@@ -16,17 +16,12 @@ WORKDIR /app/
 RUN apt-get update && apt-get install -y  \
     wget \
     netcat-openbsd \
-    xvfb \
     mariadb-client \
     mlocate \
     python3-dev  \
     build-essential  \
-    pkg-config
-
-# Install google chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN apt install -y ./google-chrome-stable_current_amd64.deb
-RUN rm -rf google-chrome-stable_current_amd64.deb
+    pkg-config \
+    inetutils-ping
 
 # configurando o python
 RUN python -m venv /venv

@@ -2,6 +2,7 @@ version: '3.9'
 services:
   django-animes-to-watch:
     container_name: django-animes-to-watch
+    hostname: django-animes-to-watch
     build: 
       context: .
       dockerfile: django/Dockerfile
@@ -11,12 +12,19 @@ services:
       - ./data/media:/data/media
     env_file:
       - django/.env
+    extra_hosts:
+      - silmeria:172.30.224.1
     restart: always
     depends_on:
       - mysql-animes-to-watch
+    networks:
+      network-animes-to-watch:
+        aliases:
+          - django
 
   mysql-animes-to-watch:
     container_name: mysql-animes-to-watch
+    hostname: mysql-animes-to-watch
     build: 
       context: .
       dockerfile: mysql/Dockerfile
@@ -28,9 +36,14 @@ services:
     ports:
       - "3333:3306"
     restart: always
+    networks:
+      network-animes-to-watch:
+        aliases:
+          - mysql
 
   nginx-animes-to-watch:
     container_name: nginx-animes-to-watch
+    hostname: nginx-animes-to-watch
     build:
       context: .
       dockerfile: nginx/Dockerfile
@@ -42,3 +55,52 @@ services:
     depends_on:
       - django-animes-to-watch
     restart: always
+    networks:
+      network-animes-to-watch:
+        aliases:
+          - nginx
+
+  hub-animes-to-watch:
+    container_name: hub-animes-to-watch
+    hostname: hub-animes-to-watch
+    build:
+      context: .
+      dockerfile: hub/Dockerfile
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    restart: always
+    networks:
+      network-animes-to-watch:
+        aliases:
+          - selenium-hub
+
+  chrome-animes-to-watch:
+    #container_name: chrome-animes-to-watch
+    hostname: chrome-animes-to-watch
+    shm_size: 2g
+    build:
+      context: .
+      dockerfile: chrome/Dockerfile
+    environment:
+      - SE_SCREEN_WIDTH=1920
+      - SE_SCREEN_HEIGHT=1080
+      - SE_SCREEN_DEPTH=24
+      - SE_SCREEN_DPI=74
+      - SE_EVENT_BUS_HOST=hub-animes-to-watch
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    volumes:
+      - ./data/logs:/data/logs
+    restart: always
+    depends_on:
+      - hub-animes-to-watch
+    networks:
+      network-animes-to-watch:
+        aliases:
+          - selenium-chrome
+
+networks:
+  network-animes-to-watch:
+    driver: bridge
