@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-ii=0o2$g82tims85etzk18b99q
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.getenv('DEBUG', '1')))
-DJANGO_ALLOW_ASYNC_UNSAFE = os.getenv('DJANGO_ALLOW_ASYNC_UNSAFE', 'True')
+os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = os.getenv('DJANGO_ALLOW_ASYNC_UNSAFE', 'true')
 
 ALLOWED_HOSTS = [i.strip() for i in os.getenv('ALLOWED_HOSTS', '*').split(',')]
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework",
     "logs",
+    "web"
 ]
 
 MIDDLEWARE = [
@@ -140,18 +141,18 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'console': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.StreamHandler',
         },
         'database': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logs.custom_logging.DatabaseHandler',
         },
     },
     'loggers': {
         '': {
             'handlers': ['console', 'database'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
     },

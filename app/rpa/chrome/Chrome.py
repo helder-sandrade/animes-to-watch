@@ -14,8 +14,6 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException,
 
 
 class Chrome:
-    if settings.LOCAL_DRIVER:
-        CHROME = os.path.join(os.getcwd(), "rpa", "driver", "chromedriver.exe")
 
     def __init__(self) -> None:
         """
